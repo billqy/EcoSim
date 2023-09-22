@@ -66,7 +66,7 @@ def spawn_entities():
     for v in range(VEGETATION):
         grass = entities.Grass()
 
-
+#
 make_background()
 spawn_entities()
 screen = pygame.display.set_mode((500, 500))
