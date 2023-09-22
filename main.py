@@ -8,13 +8,14 @@ from data import *
 pygame.init()
 PREY_POP = 1000
 PRED_POP = 100
-VEGETATION = 1000
+VEGETATION_POP = 1000
+SEA_LEVEL = 0
 
 GRID_SIZE_X = 100
 GRID_SIZE_Y = 100
 SEED_GEN = random.randint(0, 100)
 NOISE = PerlinNoise(octaves=10, seed=SEED_GEN)
-NOISE_GRID = [[NOISE([i/GRID_SIZE_X, j/GRID_SIZE_Y]) for i in range(GRID_SIZE_X)] for j in range(GRID_SIZE_Y)]
+NOISE_GRID = [[NOISE([i/GRID_SIZE_X, j/GRID_SIZE_Y])+0.25 for i in range(GRID_SIZE_X)] for j in range(GRID_SIZE_Y)]
 TILE_GRID = [[0 for i in range(GRID_SIZE_X)] for j in range(GRID_SIZE_Y)]
 
 
@@ -38,10 +39,10 @@ class BackgroundTile():
     def set_type(self):
         zHeight = NOISE_GRID[self.xpos][self.ypos]
 
-        if zHeight > -0.025:
+        if zHeight > SEA_LEVEL + 0.1:
             self.color = "chartreuse4"
             self.type = "Grass"
-        elif zHeight > -0.1:
+        elif zHeight > SEA_LEVEL + 0.05:
             self.color = "lemonchiffon"
             self.type = "Sand"
         else:
@@ -55,18 +56,21 @@ def make_background():
             tile = BackgroundTile(i, j)
             TILE_GRID[i][j] = tile
 
+            if tile.type == "Grass":
+                SPAWNABLE_TILES.append(tile)
+
 
 def spawn_entities():
     for i in range(PRED_POP):
-        pred = entities.Predators(4, "orangered3")
+        pred = entities.Predators(4, "orangered3")  # Size, color
 
     for j in range(PREY_POP):
-        prey = entities.Prey(3, "peru")
+        prey = entities.Prey(3, "peru")  # Size, color
 
-    for v in range(VEGETATION):
+    for v in range(VEGETATION_POP):
         grass = entities.Grass()
 
-#
+
 make_background()
 spawn_entities()
 screen = pygame.display.set_mode((500, 500))
@@ -90,7 +94,7 @@ while running:
     for a in ANIMALS:
         pygame.draw.rect(screen, a.color, a.rect)
 
-    for g in range(VEGETATION):
+    for g in VEGETATION:
         pygame.draw.rect(screen, g.color, g.rect)
 
     # flip() the display to put your work on screen
