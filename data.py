@@ -1,0 +1,4 @@
+ANIMALS = []
+PREY = []
+PREDATORS = []
+VEGETATION = []
