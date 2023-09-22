@@ -42,6 +42,7 @@ class Animals(Entity):
         return
 
     def wander(self):
+        # Move randomly until priority is within range
         return
 
     def determine_priority(self):
