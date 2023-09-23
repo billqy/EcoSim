@@ -1,6 +1,7 @@
 import pygame
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 from perlin_noise import PerlinNoise
 import entities
 from data import *
@@ -19,7 +20,7 @@ NOISE_GRID = [[NOISE([i/GRID_SIZE_X, j/GRID_SIZE_Y])+0.25 for i in range(GRID_SI
 TILE_GRID = [[0 for i in range(GRID_SIZE_X)] for j in range(GRID_SIZE_Y)]
 
 
-class BackgroundTile():
+class BackgroundTile:
     def __init__(self, xpos, ypos):
         self.xsize = 5
         self.ysize = 5
@@ -35,6 +36,10 @@ class BackgroundTile():
 
     def make_rect(self):
         self.rect = pygame.Rect(self.x, self.y, self.xsize, self.ysize)
+
+    def make_border(self):
+        self.color = "gray43"
+        self.type = "Border"
 
     def set_type(self):
         zHeight = NOISE_GRID[self.xpos][self.ypos]
@@ -55,6 +60,12 @@ def make_background():
         for j in range(GRID_SIZE_Y):
             tile = BackgroundTile(i, j)
             TILE_GRID[i][j] = tile
+
+            if i == 0 or i == GRID_SIZE_Y-1:
+                tile.make_border()
+
+            if j == 0 or j == GRID_SIZE_X-1:
+                tile.make_border()
 
             if tile.type == "Grass":
                 SPAWNABLE_TILES.append(tile)

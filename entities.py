@@ -7,8 +7,8 @@ SPAWNABLE_TILE_COUNT = len(SPAWNABLE_TILES)
 class Entity:
     def __init__(self):
         spawn_tile = SPAWNABLE_TILES[random.randint(0, len(SPAWNABLE_TILES)-1)]
-        self.x = spawn_tile.x + random.randint(1, spawn_tile.xsize-2)
-        self.y = spawn_tile.y + random.randint(1, spawn_tile.ysize-2)
+        self.x = spawn_tile.x + random.randint(0, spawn_tile.xsize-2)
+        self.y = spawn_tile.y + random.randint(0, spawn_tile.ysize-2)
 
 
 class Grass(Entity):
