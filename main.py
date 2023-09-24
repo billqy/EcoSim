@@ -104,6 +104,7 @@ while running:
 
     for a in ANIMALS:
         pygame.draw.rect(screen, a.color, a.rect)
+        a.determine_priority()
 
     for g in VEGETATION:
         pygame.draw.rect(screen, g.color, g.rect)
